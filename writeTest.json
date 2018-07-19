@@ -1,0 +1,1016 @@
+{
+    "nodes": [
+        {
+            "id": "person0",
+            "group": 0
+        },
+        {
+            "id": "person1",
+            "group": 1
+        },
+        {
+            "id": "person2",
+            "group": 1
+        },
+        {
+            "id": "person3",
+            "group": 2
+        },
+        {
+            "id": "person4",
+            "group": 3
+        },
+        {
+            "id": "person5",
+            "group": 4
+        },
+        {
+            "id": "person6",
+            "group": 5
+        },
+        {
+            "id": "person7",
+            "group": 0
+        },
+        {
+            "id": "person8",
+            "group": 6
+        },
+        {
+            "id": "person9",
+            "group": 0
+        },
+        {
+            "id": "person10",
+            "group": 0
+        },
+        {
+            "id": "person11",
+            "group": 7
+        },
+        {
+            "id": "person12",
+            "group": 0
+        },
+        {
+            "id": "person13",
+            "group": 6
+        },
+        {
+            "id": "person14",
+            "group": 8
+        },
+        {
+            "id": "person15",
+            "group": 8
+        },
+        {
+            "id": "person16",
+            "group": 9
+        },
+        {
+            "id": "person17",
+            "group": 7
+        },
+        {
+            "id": "person18",
+            "group": 0
+        },
+        {
+            "id": "person19",
+            "group": 10
+        }
+    ],
+    "links": [
+        {
+            "source": "person0",
+            "target": "person1",
+            "value": 1
+        },
+        {
+            "source": "person0",
+            "target": "person14",
+            "value": 1
+        },
+        {
+            "source": "person0",
+            "target": "person16",
+            "value": 1
+        },
+        {
+            "source": "person0",
+            "target": "person17",
+            "value": 1
+        },
+        {
+            "source": "person0",
+            "target": "person18",
+            "value": 1
+        },
+        {
+            "source": "person0",
+            "target": "person19",
+            "value": 1
+        },
+        {
+            "source": "person0",
+            "target": "person2",
+            "value": 1
+        },
+        {
+            "source": "person0",
+            "target": "person4",
+            "value": 1
+        },
+        {
+            "source": "person0",
+            "target": "person5",
+            "value": 1
+        },
+        {
+            "source": "person0",
+            "target": "person6",
+            "value": 1
+        },
+        {
+            "source": "person0",
+            "target": "person7",
+            "value": 1
+        },
+        {
+            "source": "person0",
+            "target": "person8",
+            "value": 1
+        },
+        {
+            "source": "person1",
+            "target": "person0",
+            "value": 1
+        },
+        {
+            "source": "person1",
+            "target": "person14",
+            "value": 1
+        },
+        {
+            "source": "person1",
+            "target": "person16",
+            "value": 1
+        },
+        {
+            "source": "person1",
+            "target": "person17",
+            "value": 1
+        },
+        {
+            "source": "person1",
+            "target": "person18",
+            "value": 1
+        },
+        {
+            "source": "person1",
+            "target": "person19",
+            "value": 1
+        },
+        {
+            "source": "person1",
+            "target": "person2",
+            "value": 1
+        },
+        {
+            "source": "person1",
+            "target": "person4",
+            "value": 1
+        },
+        {
+            "source": "person1",
+            "target": "person5",
+            "value": 1
+        },
+        {
+            "source": "person1",
+            "target": "person6",
+            "value": 1
+        },
+        {
+            "source": "person1",
+            "target": "person7",
+            "value": 1
+        },
+        {
+            "source": "person1",
+            "target": "person8",
+            "value": 1
+        },
+        {
+            "source": "person2",
+            "target": "person0",
+            "value": 1
+        },
+        {
+            "source": "person2",
+            "target": "person1",
+            "value": 1
+        },
+        {
+            "source": "person2",
+            "target": "person10",
+            "value": 1
+        },
+        {
+            "source": "person2",
+            "target": "person14",
+            "value": 1
+        },
+        {
+            "source": "person2",
+            "target": "person16",
+            "value": 1
+        },
+        {
+            "source": "person2",
+            "target": "person17",
+            "value": 1
+        },
+        {
+            "source": "person2",
+            "target": "person18",
+            "value": 1
+        },
+        {
+            "source": "person2",
+            "target": "person19",
+            "value": 1
+        },
+        {
+            "source": "person2",
+            "target": "person3",
+            "value": 1
+        },
+        {
+            "source": "person2",
+            "target": "person4",
+            "value": 1
+        },
+        {
+            "source": "person2",
+            "target": "person5",
+            "value": 1
+        },
+        {
+            "source": "person2",
+            "target": "person6",
+            "value": 1
+        },
+        {
+            "source": "person2",
+            "target": "person7",
+            "value": 1
+        },
+        {
+            "source": "person2",
+            "target": "person8",
+            "value": 1
+        },
+        {
+            "source": "person3",
+            "target": "person14",
+            "value": 1
+        },
+        {
+            "source": "person3",
+            "target": "person16",
+            "value": 1
+        },
+        {
+            "source": "person3",
+            "target": "person2",
+            "value": 1
+        },
+        {
+            "source": "person3",
+            "target": "person4",
+            "value": 1
+        },
+        {
+            "source": "person3",
+            "target": "person7",
+            "value": 1
+        },
+        {
+            "source": "person3",
+            "target": "person8",
+            "value": 1
+        },
+        {
+            "source": "person4",
+            "target": "person0",
+            "value": 1
+        },
+        {
+            "source": "person4",
+            "target": "person1",
+            "value": 1
+        },
+        {
+            "source": "person4",
+            "target": "person10",
+            "value": 1
+        },
+        {
+            "source": "person4",
+            "target": "person14",
+            "value": 1
+        },
+        {
+            "source": "person4",
+            "target": "person16",
+            "value": 1
+        },
+        {
+            "source": "person4",
+            "target": "person17",
+            "value": 1
+        },
+        {
+            "source": "person4",
+            "target": "person18",
+            "value": 1
+        },
+        {
+            "source": "person4",
+            "target": "person19",
+            "value": 1
+        },
+        {
+            "source": "person4",
+            "target": "person2",
+            "value": 1
+        },
+        {
+            "source": "person4",
+            "target": "person3",
+            "value": 1
+        },
+        {
+            "source": "person4",
+            "target": "person5",
+            "value": 1
+        },
+        {
+            "source": "person4",
+            "target": "person6",
+            "value": 1
+        },
+        {
+            "source": "person4",
+            "target": "person7",
+            "value": 1
+        },
+        {
+            "source": "person4",
+            "target": "person8",
+            "value": 1
+        },
+        {
+            "source": "person5",
+            "target": "person0",
+            "value": 1
+        },
+        {
+            "source": "person5",
+            "target": "person1",
+            "value": 1
+        },
+        {
+            "source": "person5",
+            "target": "person14",
+            "value": 1
+        },
+        {
+            "source": "person5",
+            "target": "person16",
+            "value": 1
+        },
+        {
+            "source": "person5",
+            "target": "person17",
+            "value": 1
+        },
+        {
+            "source": "person5",
+            "target": "person18",
+            "value": 1
+        },
+        {
+            "source": "person5",
+            "target": "person19",
+            "value": 1
+        },
+        {
+            "source": "person5",
+            "target": "person2",
+            "value": 1
+        },
+        {
+            "source": "person5",
+            "target": "person4",
+            "value": 1
+        },
+        {
+            "source": "person5",
+            "target": "person6",
+            "value": 1
+        },
+        {
+            "source": "person5",
+            "target": "person7",
+            "value": 1
+        },
+        {
+            "source": "person5",
+            "target": "person8",
+            "value": 1
+        },
+        {
+            "source": "person6",
+            "target": "person0",
+            "value": 1
+        },
+        {
+            "source": "person6",
+            "target": "person1",
+            "value": 1
+        },
+        {
+            "source": "person6",
+            "target": "person14",
+            "value": 1
+        },
+        {
+            "source": "person6",
+            "target": "person16",
+            "value": 1
+        },
+        {
+            "source": "person6",
+            "target": "person17",
+            "value": 1
+        },
+        {
+            "source": "person6",
+            "target": "person18",
+            "value": 1
+        },
+        {
+            "source": "person6",
+            "target": "person19",
+            "value": 1
+        },
+        {
+            "source": "person6",
+            "target": "person2",
+            "value": 1
+        },
+        {
+            "source": "person6",
+            "target": "person4",
+            "value": 1
+        },
+        {
+            "source": "person6",
+            "target": "person5",
+            "value": 1
+        },
+        {
+            "source": "person6",
+            "target": "person7",
+            "value": 1
+        },
+        {
+            "source": "person6",
+            "target": "person8",
+            "value": 1
+        },
+        {
+            "source": "person7",
+            "target": "person0",
+            "value": 1
+        },
+        {
+            "source": "person7",
+            "target": "person1",
+            "value": 1
+        },
+        {
+            "source": "person7",
+            "target": "person10",
+            "value": 1
+        },
+        {
+            "source": "person7",
+            "target": "person14",
+            "value": 1
+        },
+        {
+            "source": "person7",
+            "target": "person16",
+            "value": 1
+        },
+        {
+            "source": "person7",
+            "target": "person17",
+            "value": 1
+        },
+        {
+            "source": "person7",
+            "target": "person18",
+            "value": 1
+        },
+        {
+            "source": "person7",
+            "target": "person19",
+            "value": 1
+        },
+        {
+            "source": "person7",
+            "target": "person2",
+            "value": 1
+        },
+        {
+            "source": "person7",
+            "target": "person3",
+            "value": 1
+        },
+        {
+            "source": "person7",
+            "target": "person4",
+            "value": 1
+        },
+        {
+            "source": "person7",
+            "target": "person5",
+            "value": 1
+        },
+        {
+            "source": "person7",
+            "target": "person6",
+            "value": 1
+        },
+        {
+            "source": "person7",
+            "target": "person8",
+            "value": 1
+        },
+        {
+            "source": "person8",
+            "target": "person0",
+            "value": 1
+        },
+        {
+            "source": "person8",
+            "target": "person1",
+            "value": 1
+        },
+        {
+            "source": "person8",
+            "target": "person10",
+            "value": 1
+        },
+        {
+            "source": "person8",
+            "target": "person14",
+            "value": 1
+        },
+        {
+            "source": "person8",
+            "target": "person16",
+            "value": 1
+        },
+        {
+            "source": "person8",
+            "target": "person17",
+            "value": 1
+        },
+        {
+            "source": "person8",
+            "target": "person18",
+            "value": 1
+        },
+        {
+            "source": "person8",
+            "target": "person19",
+            "value": 1
+        },
+        {
+            "source": "person8",
+            "target": "person2",
+            "value": 1
+        },
+        {
+            "source": "person8",
+            "target": "person3",
+            "value": 1
+        },
+        {
+            "source": "person8",
+            "target": "person4",
+            "value": 1
+        },
+        {
+            "source": "person8",
+            "target": "person5",
+            "value": 1
+        },
+        {
+            "source": "person8",
+            "target": "person6",
+            "value": 1
+        },
+        {
+            "source": "person8",
+            "target": "person7",
+            "value": 1
+        },
+        {
+            "source": "person10",
+            "target": "person14",
+            "value": 1
+        },
+        {
+            "source": "person10",
+            "target": "person16",
+            "value": 1
+        },
+        {
+            "source": "person10",
+            "target": "person17",
+            "value": 1
+        },
+        {
+            "source": "person10",
+            "target": "person2",
+            "value": 1
+        },
+        {
+            "source": "person10",
+            "target": "person4",
+            "value": 1
+        },
+        {
+            "source": "person10",
+            "target": "person7",
+            "value": 1
+        },
+        {
+            "source": "person10",
+            "target": "person8",
+            "value": 1
+        },
+        {
+            "source": "person12",
+            "target": "person14",
+            "value": 1
+        },
+        {
+            "source": "person12",
+            "target": "person16",
+            "value": 1
+        },
+        {
+            "source": "person14",
+            "target": "person0",
+            "value": 1
+        },
+        {
+            "source": "person14",
+            "target": "person1",
+            "value": 1
+        },
+        {
+            "source": "person14",
+            "target": "person10",
+            "value": 1
+        },
+        {
+            "source": "person14",
+            "target": "person12",
+            "value": 1
+        },
+        {
+            "source": "person14",
+            "target": "person16",
+            "value": 1
+        },
+        {
+            "source": "person14",
+            "target": "person17",
+            "value": 1
+        },
+        {
+            "source": "person14",
+            "target": "person18",
+            "value": 1
+        },
+        {
+            "source": "person14",
+            "target": "person19",
+            "value": 1
+        },
+        {
+            "source": "person14",
+            "target": "person2",
+            "value": 1
+        },
+        {
+            "source": "person14",
+            "target": "person3",
+            "value": 1
+        },
+        {
+            "source": "person14",
+            "target": "person4",
+            "value": 1
+        },
+        {
+            "source": "person14",
+            "target": "person5",
+            "value": 1
+        },
+        {
+            "source": "person14",
+            "target": "person6",
+            "value": 1
+        },
+        {
+            "source": "person14",
+            "target": "person7",
+            "value": 1
+        },
+        {
+            "source": "person14",
+            "target": "person8",
+            "value": 1
+        },
+        {
+            "source": "person16",
+            "target": "person0",
+            "value": 1
+        },
+        {
+            "source": "person16",
+            "target": "person1",
+            "value": 1
+        },
+        {
+            "source": "person16",
+            "target": "person10",
+            "value": 1
+        },
+        {
+            "source": "person16",
+            "target": "person12",
+            "value": 1
+        },
+        {
+            "source": "person16",
+            "target": "person14",
+            "value": 1
+        },
+        {
+            "source": "person16",
+            "target": "person17",
+            "value": 1
+        },
+        {
+            "source": "person16",
+            "target": "person18",
+            "value": 1
+        },
+        {
+            "source": "person16",
+            "target": "person19",
+            "value": 1
+        },
+        {
+            "source": "person16",
+            "target": "person2",
+            "value": 1
+        },
+        {
+            "source": "person16",
+            "target": "person3",
+            "value": 1
+        },
+        {
+            "source": "person16",
+            "target": "person4",
+            "value": 1
+        },
+        {
+            "source": "person16",
+            "target": "person5",
+            "value": 1
+        },
+        {
+            "source": "person16",
+            "target": "person6",
+            "value": 1
+        },
+        {
+            "source": "person16",
+            "target": "person7",
+            "value": 1
+        },
+        {
+            "source": "person16",
+            "target": "person8",
+            "value": 1
+        },
+        {
+            "source": "person17",
+            "target": "person0",
+            "value": 1
+        },
+        {
+            "source": "person17",
+            "target": "person1",
+            "value": 1
+        },
+        {
+            "source": "person17",
+            "target": "person10",
+            "value": 1
+        },
+        {
+            "source": "person17",
+            "target": "person14",
+            "value": 1
+        },
+        {
+            "source": "person17",
+            "target": "person16",
+            "value": 1
+        },
+        {
+            "source": "person17",
+            "target": "person18",
+            "value": 1
+        },
+        {
+            "source": "person17",
+            "target": "person19",
+            "value": 1
+        },
+        {
+            "source": "person17",
+            "target": "person2",
+            "value": 1
+        },
+        {
+            "source": "person17",
+            "target": "person4",
+            "value": 1
+        },
+        {
+            "source": "person17",
+            "target": "person5",
+            "value": 1
+        },
+        {
+            "source": "person17",
+            "target": "person6",
+            "value": 1
+        },
+        {
+            "source": "person17",
+            "target": "person7",
+            "value": 1
+        },
+        {
+            "source": "person17",
+            "target": "person8",
+            "value": 1
+        },
+        {
+            "source": "person18",
+            "target": "person0",
+            "value": 1
+        },
+        {
+            "source": "person18",
+            "target": "person1",
+            "value": 1
+        },
+        {
+            "source": "person18",
+            "target": "person14",
+            "value": 1
+        },
+        {
+            "source": "person18",
+            "target": "person16",
+            "value": 1
+        },
+        {
+            "source": "person18",
+            "target": "person17",
+            "value": 1
+        },
+        {
+            "source": "person18",
+            "target": "person19",
+            "value": 1
+        },
+        {
+            "source": "person18",
+            "target": "person2",
+            "value": 1
+        },
+        {
+            "source": "person18",
+            "target": "person4",
+            "value": 1
+        },
+        {
+            "source": "person18",
+            "target": "person5",
+            "value": 1
+        },
+        {
+            "source": "person18",
+            "target": "person6",
+            "value": 1
+        },
+        {
+            "source": "person18",
+            "target": "person7",
+            "value": 1
+        },
+        {
+            "source": "person18",
+            "target": "person8",
+            "value": 1
+        },
+        {
+            "source": "person19",
+            "target": "person0",
+            "value": 1
+        },
+        {
+            "source": "person19",
+            "target": "person1",
+            "value": 1
+        },
+        {
+            "source": "person19",
+            "target": "person14",
+            "value": 1
+        },
+        {
+            "source": "person19",
+            "target": "person16",
+            "value": 1
+        },
+        {
+            "source": "person19",
+            "target": "person17",
+            "value": 1
+        },
+        {
+            "source": "person19",
+            "target": "person18",
+            "value": 1
+        },
+        {
+            "source": "person19",
+            "target": "person2",
+            "value": 1
+        },
+        {
+            "source": "person19",
+            "target": "person4",
+            "value": 1
+        },
+        {
+            "source": "person19",
+            "target": "person5",
+            "value": 1
+        },
+        {
+            "source": "person19",
+            "target": "person6",
+            "value": 1
+        },
+        {
+            "source": "person19",
+            "target": "person7",
+            "value": 1
+        },
+        {
+            "source": "person19",
+            "target": "person8",
+            "value": 1
+        }
+    ]
+}
