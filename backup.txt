@@ -22,6 +22,10 @@
 
     <div id="graph"></div>
 
+    <form>
+        <h3> Link threshold 0 <input type="range" id="thersholdSlider" name="points" value = 0 min="0" max="10" onchange="threshold(this.value)"> 10 </h3>
+    </form>
+    <script type="application/json" src="writeTest.json" id="jsonData"></script>
 
     <script>
         var svg = d3.select("svg"), width = +svg.attr("width"), height = +svg.attr("height");
@@ -30,7 +34,7 @@
             .range(["red", "orange", "yellow", "green", "blue", "violet", "purple", "black", "grey", "brown"]);
 
         var simulation = d3.forceSimulation()
-            .force("link", d3.forceLink().id(function(d) { return d.id; }).strength(0.002))
+            .force("link", d3.forceLink().id(function (d) { return d.id; }).strength(0.005))
             .force("charge", d3.forceManyBody())
             .force("center", d3.forceCenter(width / 2, height / 2));
 
@@ -55,7 +59,7 @@
                     .on("end", dragended));
 
             node.append("title")
-                .text(function (d) { return d.id });
+                .text(function (d) { return d.person });
 
             simulation
                 .nodes(graph.nodes)
@@ -94,7 +98,27 @@
             d.fy = null;
         }
 
-        
+        function threshold(thresh) {
+            graph.links.splice(0, graph.links.length);
+
+            for (var i = 0; i < graphRec.links.length; i++) {
+                if (graphRec.links[i].value > 10) { graph.links.push(graphRec.links[i]); }
+            }
+            restart();
+        }
+
+
+        //Restart the visualisation after any node and link changes
+
+        function restart() {
+
+            link = link.data(graph.links);
+            link.exit().remove();
+            link.enter().insert("line", ".node").attr("class", "link");
+            node = node.data(graph.nodes);
+            node.enter().insert("circle", ".cursor").attr("class", "node").attr("r", 5).call(force.drag);
+            force.start();
+        }
     </script>
 
 </body>
