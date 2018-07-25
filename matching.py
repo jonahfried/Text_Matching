@@ -3,10 +3,12 @@ import math
 import json
 import itertools
 import pandas as pd
+import collections
+import unittest
 
 blog_path = "./blogs/"
 path_list = os.listdir(path=blog_path)
-BLOG_SAMPLE_SIZE = 11
+BLOG_SAMPLE_SIZE = 10
 MAX_SEEN_VALUE = .50
 MIN_SEEN_VALUE = .01
 MATCH_LENIENCY = .00009
@@ -25,7 +27,6 @@ def strip_blogs():
 # str -> [str]
 def getWords(str):
     words = []
-    
     str = str+"."
     last_ind = 0
     for ind in range(len(str)):
@@ -36,26 +37,15 @@ def getWords(str):
             else:
                 words.append(str[last_ind:ind].lower())
                 last_ind = ind+1
-    
     return words
 
-
-def words_and_people_in_blogs(blogs, people, all_words_seen):
-    for blog in blogs:
-        newDict = {}
-        people.append(newDict)
-        wordList = getWords(blog)
-        for word in wordList:
-    #         ADD TO THIS PERSON'S DICT
-            if word not in newDict:
-                newDict[word] = 1
-            else:
-                newDict[word] += 1
-    #         ADD TO ALL WORDS SEEN
-            if word not in all_words_seen:
-                all_words_seen[word] = 1
-            else:
-                all_words_seen[word] += 1
+def build_people_and_find_words(blogs):
+    blogs = list(map(getWords, blogs))
+    people = [dict(collections.Counter(blog)) for blog in blogs]
+    flattened_blogs = [word for blog in blogs for word in blog]
+    all_words_seen = dict(collections.Counter(flattened_blogs))
+    remove_useless_words(people, all_words_seen)
+    return (people, all_words_seen)
 
 def remove_useless_words(people, all_words_seen):
     total_people = len(people)
@@ -69,13 +59,6 @@ def remove_useless_words(people, all_words_seen):
     for word in [term for term in all_words_seen if term not in wordsToRemove]:
         for person in [d for d in people if word not in d ]:
             person[word] = 0
-
-def build_people_and_find_words(blogs):
-    people = []
-    all_words_seen = {}
-    words_and_people_in_blogs(blogs, people, all_words_seen)
-    remove_useless_words(people, all_words_seen)
-    return (people, all_words_seen)
 
 def termFrequency(person):
     return .5 + (.5*person/person.max())
@@ -133,6 +116,8 @@ def output_to_json(write_path, similarity_frame):
     file.write(json.dumps(nodes_and_links, sort_keys=True, indent=2))
     file.close()
 
+
+class test_
 
 
 if __name__ == '__main__':

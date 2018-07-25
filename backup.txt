@@ -1,126 +1,144 @@
-<html>
+import os
+import math
+import json
+import itertools
+import pandas as pd
 
-<head>
-    <title>Matching</title>
-    <meta charset="utf-8">
-    <style>
-        .links line {
-            stroke: #999;
-            stroke-opacity: 1.0;
-        }
+blog_path = "./blogs/"
+path_list = os.listdir(path=blog_path)
+BLOG_SAMPLE_SIZE = 11
+MAX_SEEN_VALUE = .50
+MIN_SEEN_VALUE = .01
+MATCH_LENIENCY = .00009
 
-        .nodes circle {
-            stroke: #fff;
-            stroke-width: 1.5px;
-        }
-    </style>
-</head>
+def strip_blogs():
+    blogs = []
+    for ind in range(BLOG_SAMPLE_SIZE):
+        file = open(blog_path+path_list[ind], "rb")
+        posts = [line.decode("utf-8", errors="ignore").strip() for line in file]
+        posts = [line for line in posts if (line != "" and line[0] != "<")]
+        blogs.append(" ".join(posts))
+        file.close()
+    return blogs
 
-<body>
-    <svg width="1300" height="640"></svg>
-    <script src="https://d3js.org/d3.v5.min.js"></script>
-
-    <div id="graph"></div>
-
-    <form>
-        <h3> Link threshold 0 <input type="range" id="thersholdSlider" name="points" value = 0 min="0" max="10" onchange="threshold(this.value)"> 10 </h3>
-    </form>
-    <script type="application/json" src="writeTest.json" id="jsonData"></script>
-
-    <script>
-        var svg = d3.select("svg"), width = +svg.attr("width"), height = +svg.attr("height");
-
-        var color = d3.scaleOrdinal(d3.schemeCategory20)
-            .range(["red", "orange", "yellow", "green", "blue", "violet", "purple", "black", "grey", "brown"]);
-
-        var simulation = d3.forceSimulation()
-            .force("link", d3.forceLink().id(function (d) { return d.id; }).strength(0.005))
-            .force("charge", d3.forceManyBody())
-            .force("center", d3.forceCenter(width / 2, height / 2));
-
-        d3.json("/writeTest.json").then(function (graph) {
-            var link = svg.append("g")
-                .attr("class", "links")
-                .selectAll("line")
-                .data(graph.links)
-                .enter().append("line")
-                .attr("stroke-width", function (d) { return Math.sqrt(d.value); });
-
-            var node = svg.append("g")
-                .attr("class", "nodes")
-                .selectAll("circle")
-                .data(graph.nodes)
-                .enter().append("circle")
-                .attr("r", 5)
-                .attr("fill", function (d) { return color(d.group); })
-                .call(d3.drag()
-                    .on("start", dragstarted)
-                    .on("drag", dragged)
-                    .on("end", dragended));
-
-            node.append("title")
-                .text(function (d) { return d.person });
-
-            simulation
-                .nodes(graph.nodes)
-                .on("tick", ticked);
-
-            simulation.force("link")
-                .links(graph.links);
-
-            function ticked() {
-                link
-                    .attr("x1", function (d) { return d.source.x; })
-                    .attr("y1", function (d) { return d.source.y; })
-                    .attr("x2", function (d) { return d.target.x; })
-                    .attr("y2", function (d) { return d.target.y; })
-
-                node
-                    .attr("cx", function (d) { return d.x; })
-                    .attr("cy", function (d) { return d.y; });
-            }
-        });
-
-        function dragstarted(d) {
-            if (!d3.event.active) simulation.alphaTarget(.3).restart();
-            d.fx = d.x;
-            d.fy = d.y;
-        }
-
-        function dragged(d) {
-            d.fx = d3.event.x;
-            d.fy = d3.event.y;
-        }
-
-        function dragended(d) {
-            if (!d3.event.active) simulation.alphaTarget(0);
-            d.fx = null;
-            d.fy = null;
-        }
-
-        function threshold(thresh) {
-            graph.links.splice(0, graph.links.length);
-
-            for (var i = 0; i < graphRec.links.length; i++) {
-                if (graphRec.links[i].value > 10) { graph.links.push(graphRec.links[i]); }
-            }
-            restart();
-        }
+# splits up a string into a list of words.
+# str -> [str]
+def getWords(str):
+    words = []
+    
+    str = str+"."
+    last_ind = 0
+    for ind in range(len(str)):
+        if not (str[ind].isalpha()):
+            if last_ind == ind:
+                last_ind += 1
+                continue
+            else:
+                words.append(str[last_ind:ind].lower())
+                last_ind = ind+1
+    
+    return words
 
 
-        //Restart the visualisation after any node and link changes
+def words_and_people_in_blogs(blogs, people, all_words_seen):
+    for blog in blogs:
+        newDict = {}
+        people.append(newDict)
+        wordList = getWords(blog)
+        for word in wordList:
+    #         ADD TO THIS PERSON'S DICT
+            if word not in newDict:
+                newDict[word] = 1
+            else:
+                newDict[word] += 1
+    #         ADD TO ALL WORDS SEEN
+            if word not in all_words_seen:
+                all_words_seen[word] = 1
+            else:
+                all_words_seen[word] += 1
 
-        function restart() {
+def remove_useless_words(people, all_words_seen):
+    total_people = len(people)
+    wordsToRemove = [word for word in all_words_seen if ((all_words_seen[word]/total_people > MAX_SEEN_VALUE) or (all_words_seen[word]/total_people < MIN_SEEN_VALUE))]
+    for word in wordsToRemove:
+        del all_words_seen[word]
+        for person in people:
+                if word in person:
+                    del person[word]
 
-            link = link.data(graph.links);
-            link.exit().remove();
-            link.enter().insert("line", ".node").attr("class", "link");
-            node = node.data(graph.nodes);
-            node.enter().insert("circle", ".cursor").attr("class", "node").attr("r", 5).call(force.drag);
-            force.start();
-        }
-    </script>
+    for word in [term for term in all_words_seen if term not in wordsToRemove]:
+        for person in [d for d in people if word not in d ]:
+            person[word] = 0
 
-</body>
+def build_people_and_find_words(blogs):
+    people = []
+    all_words_seen = {}
+    words_and_people_in_blogs(blogs, people, all_words_seen)
+    remove_useless_words(people, all_words_seen)
+    return (people, all_words_seen)
 
-</html>
+def termFrequency(person):
+    return .5 + (.5*person/person.max())
+
+# cosDist = sum(ser1*ser2)/(sqrt(sum(ser1^2)) * sqrt(sum(ser2^2)))
+def cosDist(ser1, ser2):
+    numerator = ser1.dot(ser2)
+    ser1_denominator = math.sqrt(sum(map((lambda x: x**2), ser1)))
+    ser2_denominator = math.sqrt(sum(map((lambda x: x**2), ser2)))
+    return 1 - numerator/(ser1_denominator*ser2_denominator)
+
+
+def build_tdm(people, all_words_seen):
+    tdm = pd.DataFrame({path_list[ind]:people[ind] for ind in range(BLOG_SAMPLE_SIZE) }, dtype=float)
+
+    # (This step scales really badly)
+    # IDF_Dict = {}
+    # for word in all_words_seen:
+    #     personCount = len([person for person in tdm if tdm[person][word] > 0])
+    #     if personCount > 0:
+    #         IDF_Dict[word] = math.log(BLOG_SAMPLE_SIZE / personCount)
+    IDF_Dict = {word:math.log(BLOG_SAMPLE_SIZE/len([person for person in tdm if tdm[person][word] > 0])) for word in all_words_seen}
+
+    for person in tdm:
+        tdm[person] = termFrequency(tdm[person])
+        for i in range(len(person)):
+            tdm[person][i] = tdm[person][i] * IDF_Dict[tdm[person].keys()[i]]
+    return tdm
+
+def parse_occupation(path_name):
+    return path_name.split(".")[3]
+
+def find_unique_occupations():
+    uniques = set([parse_occupation(path) for path in path_list])
+    return dict(zip(uniques, range(len(uniques))))
+
+def dict_add_person(nodes_and_links, occupations, person):
+        occupation = occupations[person.name.split(".")[3]]
+        nodes_and_links["nodes"].append({"id": person.name, "group":occupation})
+        for relation in person.keys():
+            if person[relation] < MATCH_LENIENCY: 
+                nodes_and_links["links"].append({"source":person.name, "target":relation, "value":1})
+
+def output_to_json(write_path, similarity_frame):
+    nodes_and_links = {}
+    nodes_and_links["nodes"] = []
+    nodes_and_links["links"] = []
+
+    occupations = find_unique_occupations()
+
+    for person in similarity_frame:
+        dict_add_person(nodes_and_links, occupations, similarity_frame[person])
+
+    file = open(write_path, "w")
+    file.write(json.dumps(nodes_and_links, sort_keys=True, indent=2))
+    file.close()
+
+
+
+if __name__ == '__main__':
+    blogs = strip_blogs()
+    (people, all_words_seen) = build_people_and_find_words(blogs)
+    tdm = build_tdm(people, all_words_seen)
+    # (This step scales really badly)
+    similarity_frame = pd.DataFrame({person:{relation:cosDist(tdm[person], tdm[relation]) for relation in tdm} for person in tdm})
+    output_to_json("writeTest.json", similarity_frame)
