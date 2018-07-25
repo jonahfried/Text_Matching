@@ -6,7 +6,7 @@ import pandas as pd
 
 blog_path = "./blogs/"
 path_list = os.listdir(path=blog_path)
-blog_sample_size = 15
+blog_sample_size = 100
 
 occupations = {}
 occupation_counter = 0
@@ -107,7 +107,7 @@ def dict_add_person(json_nodes_and_links, person ):
     occupation = occupations[person.name.split(".")[3]]
     json_nodes_and_links["nodes"].append({"id": person.name, "group":occupation})
     for relation in person.keys():
-        if person[relation] < .006:
+        if person[relation] < .00009:
             json_nodes_and_links["links"].append({"source":person.name, "target":relation, "value":1})
 
 
