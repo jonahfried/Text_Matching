@@ -4,6 +4,7 @@ import json
 import itertools
 import pandas as pd
 import collections
+import concurrent.futures as cf
 
 blog_path = "./blogs/"
 path_list = os.listdir(path=blog_path)
@@ -68,7 +69,8 @@ def cos_dist(ser1, ser2, tdm, square_sums):
     ser2_denominator = square_sums[ser2]
     return 1 - numerator/(ser1_denominator*ser2_denominator)
 
-def find_sums_for_each_person(tdm) :
+def find_sums_for_each_person(tdm):
+    
     square_sums = {person:math.sqrt(sum(map((lambda x: x**2), tdm[person]))) for person in tdm}
     return square_sums
 
@@ -127,7 +129,8 @@ def output_to_json(write_path, path_list, similarity_frame):
 
 def main():
     blogs = strip_blogs(BLOG_SAMPLE_SIZE, blog_path, path_list)
-    blogs = list(map(get_words, blogs))
+    pool = cf.ProcessPoolExecutor()
+    blogs = list(pool.map(get_words, blogs))
     (people, all_words_seen) = build_people_and_find_words(blogs)
     IDFs = find_IDFs(blogs)
     tdm = build_tdm(people, IDFs, all_words_seen)
