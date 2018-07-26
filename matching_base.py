@@ -4,6 +4,7 @@ import json
 import itertools
 import pandas as pd
 import collections
+import unittest
 
 blog_path = "./blogs/"
 path_list = os.listdir(path=blog_path)
@@ -39,6 +40,7 @@ def get_words(str):
     return words
 
 def build_people_and_find_words(blogs):
+    blogs = list(map(get_words, blogs))
     people = [dict(collections.Counter(blog)) for blog in blogs]
     flattened_blogs = [word for blog in blogs for word in blog]
     all_words_seen = dict(collections.Counter(flattened_blogs))
@@ -62,25 +64,14 @@ def term_frequency(person):
     return .5 + (.5*person/person.max())
 
 # cos_dist = sum(ser1*ser2)/(sqrt(sum(ser1^2)) * sqrt(sum(ser2^2)))
-def cos_dist(ser1, ser2, tdm, square_sums):
-    numerator = tdm[ser1].dot(tdm[ser2])
-    ser1_denominator = square_sums[ser1]
-    ser2_denominator = square_sums[ser2]
+def cos_dist(ser1, ser2):
+    numerator = ser1.dot(ser2)
+    ser1_denominator = math.sqrt(sum(map((lambda x: x**2), ser1)))
+    ser2_denominator = math.sqrt(sum(map((lambda x: x**2), ser2)))
     return 1 - numerator/(ser1_denominator*ser2_denominator)
 
-def find_sums_for_each_person(tdm) :
-    square_sums = {person:math.sqrt(sum(map((lambda x: x**2), tdm[person]))) for person in tdm}
-    return square_sums
 
-def find_IDFs(blogs):
-    blogs = list(map(set, blogs))
-    blogs = list(map(collections.Counter, blogs))
-    c = collections.Counter()
-    for blog in blogs:
-        c += blog
-    return {word:math.log(BLOG_SAMPLE_SIZE/c[word]) for word in c}
-
-def build_tdm(people, IDF_Dict, all_words_seen):
+def build_tdm(people, all_words_seen):
     tdm = pd.DataFrame({path_list[ind]:people[ind] for ind in range(BLOG_SAMPLE_SIZE) }, dtype=float)
 
     # (This step scales really badly)
@@ -89,7 +80,7 @@ def build_tdm(people, IDF_Dict, all_words_seen):
     #     personCount = len([person for person in tdm if tdm[person][word] > 0])
     #     if personCount > 0:
     #         IDF_Dict[word] = math.log(BLOG_SAMPLE_SIZE / personCount)
-    
+    IDF_Dict = {word:math.log(BLOG_SAMPLE_SIZE/len([person for person in tdm if tdm[person][word] > 0])) for word in all_words_seen}
 
     for person in tdm:
         tdm[person] = term_frequency(tdm[person])
@@ -125,15 +116,13 @@ def output_to_json(write_path, path_list, similarity_frame):
     file.write(json.dumps(nodes_and_links, sort_keys=True, indent=2))
     file.close()
 
+
 def main():
     blogs = strip_blogs(BLOG_SAMPLE_SIZE, blog_path, path_list)
-    blogs = list(map(get_words, blogs))
     (people, all_words_seen) = build_people_and_find_words(blogs)
-    IDFs = find_IDFs(blogs)
-    tdm = build_tdm(people, IDFs, all_words_seen)
+    tdm = build_tdm(people, all_words_seen)
     # (This step scales really badly)
-    square_sums = find_sums_for_each_person(tdm)
-    similarity_frame = pd.DataFrame({person:{relation:cos_dist(person, relation, tdm, square_sums) for relation in tdm} for person in tdm})
+    similarity_frame = pd.DataFrame({person:{relation:cos_dist(tdm[person], tdm[relation]) for relation in tdm} for person in tdm})
     output_to_json("writeTest.json", path_list, similarity_frame)
 
 if __name__ == '__main__':

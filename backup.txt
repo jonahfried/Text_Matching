@@ -3,18 +3,19 @@ import math
 import json
 import itertools
 import pandas as pd
+import collections
 
 blog_path = "./blogs/"
 path_list = os.listdir(path=blog_path)
-BLOG_SAMPLE_SIZE = 11
+BLOG_SAMPLE_SIZE = 20
 MAX_SEEN_VALUE = .50
 MIN_SEEN_VALUE = .01
-MATCH_LENIENCY = .00009
+MATCH_LENIENCY = .0009
 
-def strip_blogs():
+def strip_blogs(sample_size, blog_path, paths):
     blogs = []
-    for ind in range(BLOG_SAMPLE_SIZE):
-        file = open(blog_path+path_list[ind], "rb")
+    for ind in range(sample_size):
+        file = open(blog_path+paths[ind], "rb")
         posts = [line.decode("utf-8", errors="ignore").strip() for line in file]
         posts = [line for line in posts if (line != "" and line[0] != "<")]
         blogs.append(" ".join(posts))
@@ -23,9 +24,8 @@ def strip_blogs():
 
 # splits up a string into a list of words.
 # str -> [str]
-def getWords(str):
+def get_words(str):
     words = []
-    
     str = str+"."
     last_ind = 0
     for ind in range(len(str)):
@@ -36,26 +36,14 @@ def getWords(str):
             else:
                 words.append(str[last_ind:ind].lower())
                 last_ind = ind+1
-    
     return words
 
-
-def words_and_people_in_blogs(blogs, people, all_words_seen):
-    for blog in blogs:
-        newDict = {}
-        people.append(newDict)
-        wordList = getWords(blog)
-        for word in wordList:
-    #         ADD TO THIS PERSON'S DICT
-            if word not in newDict:
-                newDict[word] = 1
-            else:
-                newDict[word] += 1
-    #         ADD TO ALL WORDS SEEN
-            if word not in all_words_seen:
-                all_words_seen[word] = 1
-            else:
-                all_words_seen[word] += 1
+def build_people_and_find_words(blogs):
+    blogs = list(map(get_words, blogs))
+    people = [dict(collections.Counter(blog)) for blog in blogs]
+    flattened_blogs = [word for blog in blogs for word in blog]
+    all_words_seen = dict(collections.Counter(flattened_blogs))
+    return remove_useless_words(people, all_words_seen)
 
 def remove_useless_words(people, all_words_seen):
     total_people = len(people)
@@ -69,23 +57,21 @@ def remove_useless_words(people, all_words_seen):
     for word in [term for term in all_words_seen if term not in wordsToRemove]:
         for person in [d for d in people if word not in d ]:
             person[word] = 0
-
-def build_people_and_find_words(blogs):
-    people = []
-    all_words_seen = {}
-    words_and_people_in_blogs(blogs, people, all_words_seen)
-    remove_useless_words(people, all_words_seen)
     return (people, all_words_seen)
 
-def termFrequency(person):
+def term_frequency(person):
     return .5 + (.5*person/person.max())
 
-# cosDist = sum(ser1*ser2)/(sqrt(sum(ser1^2)) * sqrt(sum(ser2^2)))
-def cosDist(ser1, ser2):
-    numerator = ser1.dot(ser2)
-    ser1_denominator = math.sqrt(sum(map((lambda x: x**2), ser1)))
-    ser2_denominator = math.sqrt(sum(map((lambda x: x**2), ser2)))
+# cos_dist = sum(ser1*ser2)/(sqrt(sum(ser1^2)) * sqrt(sum(ser2^2)))
+def cos_dist(ser1, ser2, tdm, square_sums):
+    numerator = tdm[ser1].dot(tdm[ser2])
+    ser1_denominator = square_sums[ser1]
+    ser2_denominator = square_sums[ser2]
     return 1 - numerator/(ser1_denominator*ser2_denominator)
+
+def find_sums_for_each_person(tdm) :
+    square_sums = {person:math.sqrt(sum(map((lambda x: x**2), tdm[person]))) for person in tdm}
+    return square_sums
 
 
 def build_tdm(people, all_words_seen):
@@ -100,7 +86,7 @@ def build_tdm(people, all_words_seen):
     IDF_Dict = {word:math.log(BLOG_SAMPLE_SIZE/len([person for person in tdm if tdm[person][word] > 0])) for word in all_words_seen}
 
     for person in tdm:
-        tdm[person] = termFrequency(tdm[person])
+        tdm[person] = term_frequency(tdm[person])
         for i in range(len(person)):
             tdm[person][i] = tdm[person][i] * IDF_Dict[tdm[person].keys()[i]]
     return tdm
@@ -108,7 +94,7 @@ def build_tdm(people, all_words_seen):
 def parse_occupation(path_name):
     return path_name.split(".")[3]
 
-def find_unique_occupations():
+def find_unique_occupations(path_list):
     uniques = set([parse_occupation(path) for path in path_list])
     return dict(zip(uniques, range(len(uniques))))
 
@@ -119,12 +105,12 @@ def dict_add_person(nodes_and_links, occupations, person):
             if person[relation] < MATCH_LENIENCY: 
                 nodes_and_links["links"].append({"source":person.name, "target":relation, "value":1})
 
-def output_to_json(write_path, similarity_frame):
+def output_to_json(write_path, path_list, similarity_frame):
     nodes_and_links = {}
     nodes_and_links["nodes"] = []
     nodes_and_links["links"] = []
 
-    occupations = find_unique_occupations()
+    occupations = find_unique_occupations(path_list)
 
     for person in similarity_frame:
         dict_add_person(nodes_and_links, occupations, similarity_frame[person])
@@ -133,12 +119,14 @@ def output_to_json(write_path, similarity_frame):
     file.write(json.dumps(nodes_and_links, sort_keys=True, indent=2))
     file.close()
 
-
-
-if __name__ == '__main__':
-    blogs = strip_blogs()
+def main():
+    blogs = strip_blogs(BLOG_SAMPLE_SIZE, blog_path, path_list)
     (people, all_words_seen) = build_people_and_find_words(blogs)
     tdm = build_tdm(people, all_words_seen)
     # (This step scales really badly)
-    similarity_frame = pd.DataFrame({person:{relation:cosDist(tdm[person], tdm[relation]) for relation in tdm} for person in tdm})
-    output_to_json("writeTest.json", similarity_frame)
+    square_sums = find_sums_for_each_person(tdm)
+    similarity_frame = pd.DataFrame({person:{relation:cos_dist(person, relation, tdm, square_sums) for relation in tdm} for person in tdm})
+    output_to_json("writeTest.json", path_list, similarity_frame)
+
+if __name__ == '__main__':
+    main()
