@@ -8,7 +8,7 @@ import concurrent.futures as cf
 
 blog_path = "./blogs/"
 path_list = os.listdir(path=blog_path)
-BLOG_SAMPLE_SIZE = 100
+BLOG_SAMPLE_SIZE = 40
 MAX_SEEN_VALUE = .50
 MIN_SEEN_VALUE = .01
 MATCH_LENIENCY = .0009
@@ -70,7 +70,6 @@ def cos_dist(ser1, ser2, tdm, square_sums):
     return 1 - numerator/(ser1_denominator*ser2_denominator)
 
 def find_sums_for_each_person(tdm):
-    
     square_sums = {person:math.sqrt(sum(map((lambda x: x**2), tdm[person]))) for person in tdm}
     return square_sums
 
