@@ -11,7 +11,7 @@ path_list = os.listdir(path=blog_path)
 BLOG_SAMPLE_SIZE = 20
 MAX_SEEN_VALUE = .50
 MIN_SEEN_VALUE = .01
-MATCH_LENIENCY = .3
+MATCH_LENIENCY = .50
 
 def strip_blogs(sample_size, blog_path, paths):
     blogs = []
@@ -67,7 +67,7 @@ def cos_dist(ser1, ser2, tdm, square_sums):
     numerator = tdm[ser1].dot(tdm[ser2])
     ser1_denominator = square_sums[ser1]
     ser2_denominator = square_sums[ser2]
-    return 1 - numerator/(ser1_denominator*ser2_denominator)
+    return (ser1, ser2, 1 - numerator/(ser1_denominator*ser2_denominator))
 
 def find_sums_for_each_person(tdm):
     square_sums = {person:math.sqrt(sum(map((lambda x: x**2), tdm[person]))) for person in tdm}
@@ -135,7 +135,17 @@ def main():
     tdm = build_tdm(people, IDFs, all_words_seen)
     # (This step scales really badly)
     square_sums = find_sums_for_each_person(tdm)
-    similarity_frame = pd.DataFrame({person:{relation:cos_dist(person, relation, tdm, square_sums) for relation in tdm} for person in tdm})
+
+    results = []
+    for person in tdm:
+        for relation in tdm:
+            results.append(pool.submit(cos_dist, person, relation, tdm, square_sums))
+    similarity_dict = {person:{} for person in tdm}
+    for result in cf.as_completed(results):
+        tup = result.result()
+        similarity_dict[tup[0]][tup[1]] = tup[2]
+    similarity_frame = pd.DataFrame(similarity_dict)
+
     output_to_json("./output_data/writeTest.json", path_list, similarity_frame)
 
 if __name__ == '__main__':
