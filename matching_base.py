@@ -123,7 +123,7 @@ def main():
     tdm = build_tdm(people, all_words_seen)
     # (This step scales really badly)
     similarity_frame = pd.DataFrame({person:{relation:cos_dist(tdm[person], tdm[relation]) for relation in tdm} for person in tdm})
-    output_to_json("writeTest.json", path_list, similarity_frame)
+    output_to_json("./output_data/writeTest.json", path_list, similarity_frame)
 
 if __name__ == '__main__':
     main()

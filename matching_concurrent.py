@@ -136,7 +136,7 @@ def main():
     # (This step scales really badly)
     square_sums = find_sums_for_each_person(tdm)
     similarity_frame = pd.DataFrame({person:{relation:cos_dist(person, relation, tdm, square_sums) for relation in tdm} for person in tdm})
-    output_to_json("writeTest.json", path_list, similarity_frame)
+    output_to_json("./output_data/writeTest.json", path_list, similarity_frame)
 
 if __name__ == '__main__':
     main()
