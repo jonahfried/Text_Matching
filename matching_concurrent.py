@@ -47,14 +47,14 @@ def build_people_and_find_words(blogs):
 
 def remove_useless_words(people, all_words_seen):
     total_people = len(people)
-    wordsToRemove = [word for word in all_words_seen if ((all_words_seen[word]/total_people > MAX_SEEN_VALUE) or (all_words_seen[word]/total_people < MIN_SEEN_VALUE))]
-    for word in wordsToRemove:
+    words_to_remove = [word for word in all_words_seen if ((all_words_seen[word]/total_people > MAX_SEEN_VALUE) or (all_words_seen[word]/total_people < MIN_SEEN_VALUE))]
+    for word in words_to_remove:
         del all_words_seen[word]
         for person in people:
                 if word in person:
                     del person[word]
 
-    for word in [term for term in all_words_seen if term not in wordsToRemove]:
+    for word in [term for term in all_words_seen if term not in words_to_remove]:
         for person in [d for d in people if word not in d ]:
             person[word] = 0
     return (people, all_words_seen)
