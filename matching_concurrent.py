@@ -8,7 +8,7 @@ import concurrent.futures as cf
 
 blog_path = "./blogs/"
 path_list = os.listdir(path=blog_path)
-BLOG_SAMPLE_SIZE = 20
+BLOG_SAMPLE_SIZE = 300
 MAX_SEEN_VALUE = .50
 MIN_SEEN_VALUE = .01
 MATCH_LENIENCY = .3

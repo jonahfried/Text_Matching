@@ -17,7 +17,7 @@
 </head>
 
 <body>
-    <svg width="1300" height="640"></svg>
+    <svg width="3000" height="3000"></svg>
     <script src="https://d3js.org/d3.v5.min.js"></script>
 
     <div id="graph"></div>
@@ -30,7 +30,7 @@
             .range(["red", "orange", "yellow", "green", "blue", "violet", "purple", "black", "grey", "brown"]);
 
         var simulation = d3.forceSimulation()
-            .force("link", d3.forceLink().id(function(d) { return d.id; }).strength(0.02))
+            .force("link", d3.forceLink().id(function(d) { return d.id; }).strength(0.03))
             .force("charge", d3.forceManyBody())
             .force("center", d3.forceCenter(width / 2, height / 2));
 
